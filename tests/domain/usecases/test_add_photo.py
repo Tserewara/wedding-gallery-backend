@@ -1,15 +1,40 @@
+from src.domain.models.photo_model import PhotoModel
 from src.domain.usecases import add_photo
 from tests.data.photo_uploader_spy import PhotoUploaderSpy
 
 
+class PhotoRepositorySpy:
+    def __init__(self) -> None:
+        self.photos = []
+
+    def add(self, photo: PhotoModel):
+        self.photos.append(photo)
+
+
 def test_should_call_photo_uploader_with_correct_params():
     photo_uploader_spy = PhotoUploaderSpy()
+    photo_repository_spy = PhotoRepositorySpy()
 
     file = "any_file"
     filename = "any_file_name"
     user_id = "any_user_id"
 
-    add_photo(user_id, file, filename, photo_uploader_spy)
+    add_photo(user_id, file, filename, photo_uploader_spy, photo_repository_spy)
 
     assert photo_uploader_spy.file == file
     assert photo_uploader_spy.filename == filename
+
+
+def test_should_add_photo_information_to_repository():
+    photo_uploader_spy = PhotoUploaderSpy()
+    photo_repository_spy = PhotoRepositorySpy()
+
+    user_id = "any_user_id"
+    filename = "any_file_name"
+    file = "any_file"
+
+    photo = PhotoModel(user_id, "any_image_address")
+
+    add_photo(user_id, file, filename, photo_uploader_spy, photo_repository_spy)
+
+    assert photo_repository_spy.photos == [photo]
