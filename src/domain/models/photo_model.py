@@ -8,4 +8,3 @@ class PhotoModel:
     image_address: str
     likes: int = 0
     comments: List = field(default_factory=lambda: [])
-
