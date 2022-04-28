@@ -1,5 +1,5 @@
-from src.domain.models import PhotoModel
+from src.data.protocols import AbstractPhotoUploader
 
 
-def add_photo(image_address: str, user_id: str):
-    return PhotoModel(image_address=image_address, user_id=user_id)
+def add_photo(user_id: str, file, filename: str, photo_uploader: AbstractPhotoUploader):
+    photo_uploader.upload(file, filename)
