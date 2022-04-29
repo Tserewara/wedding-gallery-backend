@@ -9,8 +9,10 @@ def add_photo(
     photo_uploader: AbstractPhotoUploader,
     photo_repository: AbstractPhotoRepository,
 ):
-    photo_uploader.upload(file, filename)
+    image_address = photo_uploader.upload(file, filename)
 
-    photo = PhotoModel(user_id, "")
+    photo = PhotoModel(user_id, image_address)
 
     photo_repository.add(photo)
+
+    return photo
