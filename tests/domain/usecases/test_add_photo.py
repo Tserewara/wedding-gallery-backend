@@ -6,8 +6,8 @@ from src.data.errors import UploadError
 
 from src.domain.models import PhotoModel
 
-from tests.data.photo_repository_spy import PhotoRepositorySpy
-from tests.data.photo_uploader_spy import PhotoUploaderSpy
+from tests.data.mocks.photo_repository_spy import PhotoRepositorySpy
+from tests.data.mocks.photo_uploader_spy import PhotoUploaderSpy
 
 
 def make_sut() -> Tuple[AddPhoto, PhotoUploaderSpy, PhotoRepositorySpy]:
@@ -18,9 +18,7 @@ def make_sut() -> Tuple[AddPhoto, PhotoUploaderSpy, PhotoRepositorySpy]:
 
 
 def mock_add_photo_params(
-    file: str = "any_file",
-    filename: str = "any_filename",
-    user_id: str = "any_user_id"
+    file: str = "any_file", filename: str = "any_filename", user_id: str = "any_user_id"
 ):
     return file, filename, user_id
 
