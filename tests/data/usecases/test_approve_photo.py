@@ -2,17 +2,30 @@ import pytest
 
 from src.domain.models import PhotoModel
 
-from src.domain.errors.photo_not_found_error import PhotoNotFoundError
 
 from src.data.usecases import ApprovePhoto
 from src.domain.models import UserModel
 from src.domain.errors import (
     PermissionDeniedError,
     PhotoNotFoundError,
+    UserNotFoundError,
 )
 from tests.data.mocks.photo_repository_spy import PhotoRepositorySpy
 from tests.data.mocks.user_repository_spy import UserRepositorySpy
 from tests.domain.models.mocks.mock_user_params import mock_user_params
+
+
+def test_should_raise_user_not_found_error_if_user_does_not_exist():
+    photo_repository_spy = PhotoRepositorySpy()
+    user_repository_spy = UserRepositorySpy()
+
+    sut = ApprovePhoto(photo_repository_spy, user_repository_spy)
+
+    photo_id = "0"
+    user_id = "0"
+
+    with pytest.raises(UserNotFoundError):
+        sut.approve(user_id, photo_id)
 
 
 def test_should_raise_photo_not_found_error_if_photo_does_not_exist():
