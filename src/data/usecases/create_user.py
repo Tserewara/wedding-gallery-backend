@@ -25,7 +25,7 @@ class CreateUser(AbstractCreateUser):
             raise EmailInUseError("Email already in use")
 
         password_encrypted = self.password_encryptor.encrypt_password(password)
-        user = UserModel(name, email, is_admin, password_encrypted)
+        user = UserModel(name, email, password_encrypted, is_admin)
 
         self.user_repository.add(user)
 

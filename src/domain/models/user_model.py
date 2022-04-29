@@ -5,5 +5,5 @@ from dataclasses import dataclass
 class UserModel:
     name: str
     email: str
-    is_admin: bool
     password: str
+    is_admin: bool = False
