@@ -7,27 +7,35 @@ from tests.data.mocks.user_repository_spy import UserRepositorySpy
 from tests.data.mocks.password_encryptor_spy import PasswordEncryptorSpy
 
 
-def test_should_add_user_created_to_repository():
-    name = "a_username"
-    email = "random@example.com"
-    password = "Secure_Password"
-    is_admin = True
+def make_sut():
     user_repository_spy = UserRepositorySpy()
-    password_encryptor = PasswordEncryptorSpy()
-    sut = CreateUser(user_repository_spy, password_encryptor)
+    password_encryptor_spy = PasswordEncryptorSpy()
+    sut = CreateUser(user_repository_spy, password_encryptor_spy)
+    return sut, user_repository_spy, password_encryptor_spy
+
+
+def mock_create_user_params(
+    name: str = "a_username",
+    email: str = "random@example.com",
+    password: str = "Secure_Password",
+    is_admin: bool = True,
+):
+    return name, email, password, is_admin
+
+
+def test_should_add_user_created_to_repository():
+    name, email, password, is_admin = mock_create_user_params()
+
+    sut, user_repository_spy, _ = make_sut()
     sut.create(name, email, password, is_admin)
 
     assert len(user_repository_spy.users) == 1
 
 
 def test_should_raise_email_in_user_error_if_email_already_exists():
-    name = "a_username"
-    email = "random@example.com"
-    password = "Secure_Password"
-    is_admin = True
-    user_repository_spy = UserRepositorySpy()
-    password_encryptor = PasswordEncryptorSpy()
-    sut = CreateUser(user_repository_spy, password_encryptor)
+    name, email, password, is_admin = mock_create_user_params()
+
+    sut, _, _ = make_sut()
     sut.create(name, email, password, is_admin)
 
     with pytest.raises(EmailInUseError):
@@ -35,16 +43,13 @@ def test_should_raise_email_in_user_error_if_email_already_exists():
 
 
 def test_encrypt_password_when_creating_user():
-    name = "a_username"
-    email = "random@example.com"
-    password = "Secure@Password"
-    is_admin = True
-    user_repository_spy = UserRepositorySpy()
-    password_encryptor = PasswordEncryptorSpy()
-    fake_hash = "78asd"
-    password_encryptor.hash = fake_hash
+    name, email, password, is_admin = mock_create_user_params()
 
-    sut = CreateUser(user_repository_spy, password_encryptor)
+    fake_hash = "78asd"
+
+    sut, _, password_encryptor_spy = make_sut()
+
+    password_encryptor_spy.hash = fake_hash
 
     user = sut.create(name, email, password, is_admin)
 
