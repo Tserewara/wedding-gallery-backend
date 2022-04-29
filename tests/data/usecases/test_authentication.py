@@ -36,3 +36,18 @@ def test_should_raise_wrong_credentials_error_if_email_is_not_found():
 
     with pytest.raises(WrongCredentialsError):
         sut.auth(email, password)
+
+
+def test_should_raise_wrong_credentials_error_if_password_is_wrong():
+    user_repository_spy = UserRepositorySpy()
+    password_encryptor_spy = PasswordEncryptorSpy()
+    password_encryptor_spy.hash = "14a5s6"
+
+    email = "user@example.com"
+    password = password_encryptor_spy.encrypt_password("any_password")
+
+    sut = Authentication(user_repository_spy, password_encryptor_spy)
+    user_repository_spy.add(UserModel("any_username", email, password))
+
+    with pytest.raises(WrongCredentialsError):
+        sut.auth(email, "wrong_password")
