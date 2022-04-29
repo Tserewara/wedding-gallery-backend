@@ -15,7 +15,14 @@ class Authentication(AbstractAuthentication):
     def auth(self, email, password):
         user: UserModel = self.user_repository.find_user_by_email(email)
 
-        if not user:
-            raise WrongCredentialsError("Wrong credentials. Verify email and password.")
+        error = WrongCredentialsError("Wrong credentials. Verify email and password.")
 
-        return self.password_encryptor.check_password(password, user.password)
+        if not user:
+            raise error
+
+        result = self.password_encryptor.check_password(password, user.password)
+
+        if not result:
+            raise error
+
+        return result
