@@ -11,6 +11,6 @@ def add_photo(
 ):
     photo_uploader.upload(file, filename)
 
-    photo = PhotoModel(user_id, "any_image_address")
+    photo = PhotoModel(user_id, "")
 
     photo_repository.add(photo)

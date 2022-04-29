@@ -33,8 +33,6 @@ def test_should_add_photo_information_to_repository():
     filename = "any_file_name"
     file = "any_file"
 
-    photo = PhotoModel(user_id, "any_image_address")
-
     add_photo(user_id, file, filename, photo_uploader_spy, photo_repository_spy)
 
-    assert photo_repository_spy.photos == [photo]
+    assert len(photo_repository_spy.photos) == 1
