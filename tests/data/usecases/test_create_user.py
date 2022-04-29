@@ -1,37 +1,10 @@
-from typing import List
 import pytest
 
-from src.data.protocols import AbstractPasswordEncryptor
 from src.domain.errors import EmailInUseError
-from src.domain.models import UserModel
 from src.data.usecases import CreateUser
-from src.data.protocols import AbstractUserRepository
 
-
-class UserRepositorySpy(AbstractUserRepository):
-    def __init__(self) -> None:
-        self.users: List[UserModel] = []
-
-    def add(self, user: UserModel) -> None:
-        self.users.append(user)
-
-    def find_user_by_email(self, email):
-        for user in self.users:
-            if user.email == email:
-                return user
-
-
-class PasswordEncryptorSpy(AbstractPasswordEncryptor):
-    def __init__(self) -> None:
-        self.hash = None
-        self.encrypted_password = ""
-
-    def encrypt_password(self, password) -> str:
-        self.encrypted_password = f"{self.hash}-{password}"
-        return self.encrypted_password
-
-    def check_password(self, password) -> bool:
-        return password == self.encrypted_password.strip(f"{self.hash}-")
+from tests.data.mocks.user_repository_spy import UserRepositorySpy
+from tests.data.mocks.password_encryptor_spy import PasswordEncryptorSpy
 
 
 def test_should_add_user_created_to_repository():
