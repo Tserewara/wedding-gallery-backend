@@ -8,3 +8,6 @@ class PhotoRepositorySpy(AbstractPhotoRepository):
 
     def add(self, photo: PhotoModel):
         self.photos.append(photo)
+
+    def find_photo_by_id(self, photo_id: str):
+        return self.photos[int(photo_id)]

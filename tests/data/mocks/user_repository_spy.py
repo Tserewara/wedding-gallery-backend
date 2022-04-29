@@ -15,3 +15,6 @@ class UserRepositorySpy(AbstractUserRepository):
         for user in self.users:
             if user.email == email:
                 return user
+
+    def find_user_by_id(self, user_id: str):
+        return self.users[int(user_id)]
