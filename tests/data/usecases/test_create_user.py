@@ -73,6 +73,6 @@ def test_encrypt_password_when_creating_user():
 
     sut = CreateUser(user_repository_spy, password_encryptor)
 
-    sut.create(name, email, password, is_admin)
+    user = sut.create(name, email, password, is_admin)
 
-    assert user_repository_spy.users[0].password == f"{fake_hash}-{password}"
+    assert user.password == f"{fake_hash}-{password}"
