@@ -10,5 +10,6 @@ class PasswordEncryptorSpy(AbstractPasswordEncryptor):
         self.encrypted_password = f"{self.hash}-{password}"
         return self.encrypted_password
 
-    def check_password(self, password) -> bool:
-        return password == self.encrypted_password.strip(f"{self.hash}-")
+    def check_password(self, password, hash: str) -> bool:
+        self.encrypted_password.removeprefix(f"{hash}")
+        return password == self.encrypted_password

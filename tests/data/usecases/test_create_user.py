@@ -42,7 +42,7 @@ def test_should_raise_email_in_user_error_if_email_already_exists():
         sut.create(name, email, password, is_admin)
 
 
-def test_encrypt_password_when_creating_user():
+def test_should_encrypt_password_when_creating_user():
     name, email, password, is_admin = mock_create_user_params()
 
     fake_hash = "78asd"
