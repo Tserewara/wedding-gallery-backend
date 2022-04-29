@@ -19,7 +19,7 @@ class CreateUser(AbstractCreateUser):
         email: str,
         password: str,
         is_admin: bool,
-    ):
+    ) -> UserModel:
 
         if self.user_repository.find_user_by_email(email):
             raise EmailInUseError("Email already in use")
@@ -28,3 +28,5 @@ class CreateUser(AbstractCreateUser):
         user = UserModel(name, email, is_admin, password_encrypted)
 
         self.user_repository.add(user)
+
+        return user
