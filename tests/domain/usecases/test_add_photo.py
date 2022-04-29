@@ -1,14 +1,6 @@
-from src.domain.models.photo_model import PhotoModel
 from src.domain.usecases import add_photo
+from tests.data.photo_repository_spy import PhotoRepositorySpy
 from tests.data.photo_uploader_spy import PhotoUploaderSpy
-
-
-class PhotoRepositorySpy:
-    def __init__(self) -> None:
-        self.photos = []
-
-    def add(self, photo: PhotoModel):
-        self.photos.append(photo)
 
 
 def test_should_call_photo_uploader_with_correct_params():
