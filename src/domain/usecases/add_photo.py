@@ -1,3 +1,4 @@
+from src.data.errors import UploadError
 from src.domain.models import PhotoModel
 from src.data.protocols import AbstractPhotoUploader, AbstractPhotoRepository
 
@@ -9,9 +10,12 @@ def add_photo(
     photo_uploader: AbstractPhotoUploader,
     photo_repository: AbstractPhotoRepository,
 ):
-    image_address = photo_uploader.upload(file, filename)
+    result = photo_uploader.upload(file, filename)
 
-    photo = PhotoModel(user_id, image_address)
+    if result == "error":
+        raise UploadError("An error occurred while uploading this photo.")
+
+    photo = PhotoModel(user_id, result)
 
     photo_repository.add(photo)
 
