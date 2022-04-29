@@ -13,6 +13,7 @@ class Authentication(AbstractAuthentication):
         super().__init__(user_repository, password_encryptor)
 
     def auth(self, email, password):
+
         user: UserModel = self.user_repository.find_user_by_email(email)
 
         error = WrongCredentialsError("Wrong credentials. Verify email and password.")
