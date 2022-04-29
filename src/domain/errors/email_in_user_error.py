@@ -1,0 +1,2 @@
+class EmailInUseError(Exception):
+    pass
