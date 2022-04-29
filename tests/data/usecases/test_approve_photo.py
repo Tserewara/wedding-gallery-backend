@@ -15,11 +15,27 @@ from tests.data.mocks.user_repository_spy import UserRepositorySpy
 from tests.domain.models.mocks.mock_user_params import mock_user_params
 
 
-def test_should_raise_user_not_found_error_if_user_does_not_exist():
+def make_sut():
     photo_repository_spy = PhotoRepositorySpy()
     user_repository_spy = UserRepositorySpy()
 
     sut = ApprovePhoto(photo_repository_spy, user_repository_spy)
+
+    return sut, photo_repository_spy, user_repository_spy
+
+
+def mock_user_model(is_admin: bool = False):
+    name, email, password, _ = mock_user_params()
+    return UserModel(name, email, password, is_admin=is_admin)
+
+
+def mock_photo_model(user_id: str = "0"):
+    image_address = "any_image_address"
+    return PhotoModel(user_id, image_address)
+
+
+def test_should_raise_user_not_found_error_if_user_does_not_exist():
+    sut, _, _ = make_sut()
 
     photo_id = "0"
     user_id = "0"
@@ -29,14 +45,9 @@ def test_should_raise_user_not_found_error_if_user_does_not_exist():
 
 
 def test_should_raise_photo_not_found_error_if_photo_does_not_exist():
-    photo_repository_spy = PhotoRepositorySpy()
-    user_repository_spy = UserRepositorySpy()
+    sut, _, user_repository_spy = make_sut()
 
-    sut = ApprovePhoto(photo_repository_spy, user_repository_spy)
-
-    name, email, password, _ = mock_user_params()
-
-    user = UserModel(name, email, password, is_admin=True)
+    user = mock_user_model()
 
     user_repository_spy.add(user)
 
@@ -48,21 +59,16 @@ def test_should_raise_photo_not_found_error_if_photo_does_not_exist():
 
 
 def test_should_raise_permission_denied_error_when_not_admin():
-    photo_repository_spy = PhotoRepositorySpy()
-    user_repository_spy = UserRepositorySpy()
+    sut, photo_repository_spy, user_repository_spy = make_sut()
 
-    sut = ApprovePhoto(photo_repository_spy, user_repository_spy)
-
-    photo_id = "0"
-    user_id = "0"
-    image_address = "any_image_address"
-
-    name, email, password, _ = mock_user_params()
-
-    user = UserModel(name, email, password)
+    user = mock_user_model()
     user_repository_spy.add(user)
 
-    photo = PhotoModel(user_id, image_address)
+    user_id = "0"
+    photo_id = "0"
+
+    photo = mock_photo_model(user_id)
+
     photo_repository_spy.add(photo)
 
     with pytest.raises(PermissionDeniedError):
@@ -70,21 +76,15 @@ def test_should_raise_permission_denied_error_when_not_admin():
 
 
 def test_should_approve_photo_if_user_is_admin():
-    photo_repository_spy = PhotoRepositorySpy()
-    user_repository_spy = UserRepositorySpy()
+    sut, photo_repository_spy, user_repository_spy = make_sut()
 
-    sut = ApprovePhoto(photo_repository_spy, user_repository_spy)
-
-    name, email, password, _ = mock_user_params()
-
-    user = UserModel(name, email, password, is_admin=True)
+    user = mock_user_model(is_admin=True)
     user_repository_spy.add(user)
 
     photo_id = "0"
     user_id = "0"
-    image_address = "any_image_address"
 
-    photo = PhotoModel(user_id, image_address)
+    photo = mock_photo_model()
     photo_repository_spy.add(photo)
 
     sut.approve(user_id, photo_id)
