@@ -10,4 +10,6 @@ class PhotoRepositorySpy(AbstractPhotoRepository):
         self.photos.append(photo)
 
     def find_photo_by_id(self, photo_id: str):
+        if not self.photos:
+            return None
         return self.photos[int(photo_id)]

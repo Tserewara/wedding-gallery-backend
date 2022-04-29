@@ -1,31 +1,37 @@
 import pytest
 
+from src.domain.models import PhotoModel
+
+from src.domain.errors.photo_not_found_error import PhotoNotFoundError
+
+from src.data.usecases import ApprovePhoto
 from src.domain.models import UserModel
-from src.domain.errors import PermissionDeniedError
-from src.domain.models.photo_model import PhotoModel
-
-from src.data.protocols import AbstractPhotoRepository
-from src.domain.usecases import AbstractApprovePhoto
-from tests.data.mocks.photo_repository_spy import PhotoRepositorySpy
-from tests.data.mocks.user_repository_spy import (
-    AbstractUserRepository,
-    UserRepositorySpy,
+from src.domain.errors import (
+    PermissionDeniedError,
+    PhotoNotFoundError,
 )
-from tests.data.usecases.test_create_user import mock_create_user_params
+from tests.data.mocks.photo_repository_spy import PhotoRepositorySpy
+from tests.data.mocks.user_repository_spy import UserRepositorySpy
+from tests.domain.models.mocks.mock_user_params import mock_user_params
 
 
-class ApprovePhoto(AbstractApprovePhoto):
-    def __init__(
-        self,
-        photo_repository: AbstractPhotoRepository,
-        user_repository: AbstractUserRepository,
-    ) -> None:
-        super().__init__(photo_repository, user_repository)
+def test_should_raise_photo_not_found_error_if_photo_does_not_exist():
+    photo_repository_spy = PhotoRepositorySpy()
+    user_repository_spy = UserRepositorySpy()
 
-    def approve(self, user_id, photo_id):
-        user: UserModel = self.user_repository.find_user_by_id(user_id)
-        if not user.is_admin:
-            raise PermissionDeniedError("You don't have permission to approve photos")
+    sut = ApprovePhoto(photo_repository_spy, user_repository_spy)
+
+    name, email, password, _ = mock_user_params()
+
+    user = UserModel(name, email, password, is_admin=True)
+
+    user_repository_spy.add(user)
+
+    photo_id = "0"
+    user_id = "0"
+
+    with pytest.raises(PhotoNotFoundError):
+        sut.approve(user_id, photo_id)
 
 
 def test_should_raise_permission_denied_error_when_not_admin():
@@ -36,12 +42,15 @@ def test_should_raise_permission_denied_error_when_not_admin():
 
     photo_id = "0"
     user_id = "0"
+    image_address = "any_image_address"
 
-    name, email, password, _ = mock_create_user_params()
+    name, email, password, _ = mock_user_params()
 
     user = UserModel(name, email, password)
-
     user_repository_spy.add(user)
+
+    photo = PhotoModel(user_id, image_address)
+    photo_repository_spy.add(photo)
 
     with pytest.raises(PermissionDeniedError):
         sut.approve(user_id, photo_id)

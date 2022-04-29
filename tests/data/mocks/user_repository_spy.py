@@ -17,4 +17,6 @@ class UserRepositorySpy(AbstractUserRepository):
                 return user
 
     def find_user_by_id(self, user_id: str):
+        if not self.users:
+            return None
         return self.users[int(user_id)]

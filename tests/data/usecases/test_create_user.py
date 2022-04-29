@@ -5,6 +5,7 @@ from src.data.usecases import CreateUser
 
 from tests.data.mocks.user_repository_spy import UserRepositorySpy
 from tests.data.mocks.password_encryptor_spy import PasswordEncryptorSpy
+from tests.domain.models.mocks.mock_user_params import mock_user_params
 
 
 def make_sut():
@@ -14,17 +15,8 @@ def make_sut():
     return sut, user_repository_spy, password_encryptor_spy
 
 
-def mock_create_user_params(
-    name: str = "a_username",
-    email: str = "random@example.com",
-    password: str = "Secure_Password",
-    is_admin: bool = True,
-):
-    return name, email, password, is_admin
-
-
 def test_should_add_user_created_to_repository():
-    name, email, password, is_admin = mock_create_user_params()
+    name, email, password, is_admin = mock_user_params()
 
     sut, user_repository_spy, _ = make_sut()
     sut.create(name, email, password, is_admin)
@@ -33,7 +25,7 @@ def test_should_add_user_created_to_repository():
 
 
 def test_should_raise_email_in_user_error_if_email_already_exists():
-    name, email, password, is_admin = mock_create_user_params()
+    name, email, password, is_admin = mock_user_params()
 
     sut, _, _ = make_sut()
     sut.create(name, email, password, is_admin)
@@ -43,7 +35,7 @@ def test_should_raise_email_in_user_error_if_email_already_exists():
 
 
 def test_should_encrypt_password_when_creating_user():
-    name, email, password, is_admin = mock_create_user_params()
+    name, email, password, is_admin = mock_user_params()
 
     fake_hash = "78asd"
 
