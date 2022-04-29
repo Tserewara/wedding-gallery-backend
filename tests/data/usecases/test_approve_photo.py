@@ -54,3 +54,26 @@ def test_should_raise_permission_denied_error_when_not_admin():
 
     with pytest.raises(PermissionDeniedError):
         sut.approve(user_id, photo_id)
+
+
+def test_should_approve_photo_if_user_is_admin():
+    photo_repository_spy = PhotoRepositorySpy()
+    user_repository_spy = UserRepositorySpy()
+
+    sut = ApprovePhoto(photo_repository_spy, user_repository_spy)
+
+    name, email, password, _ = mock_user_params()
+
+    user = UserModel(name, email, password, is_admin=True)
+    user_repository_spy.add(user)
+
+    photo_id = "0"
+    user_id = "0"
+    image_address = "any_image_address"
+
+    photo = PhotoModel(user_id, image_address)
+    photo_repository_spy.add(photo)
+
+    sut.approve(user_id, photo_id)
+
+    assert photo.is_approved
