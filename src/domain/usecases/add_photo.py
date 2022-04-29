@@ -12,10 +12,10 @@ def add_photo(
 ):
     result = photo_uploader.upload(file, filename)
 
-    if result == "error":
+    if result["error"]:
         raise UploadError("An error occurred while uploading this photo.")
 
-    photo = PhotoModel(user_id, result)
+    photo = PhotoModel(user_id, result["message"])
 
     photo_repository.add(photo)
 

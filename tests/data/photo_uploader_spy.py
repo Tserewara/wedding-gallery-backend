@@ -8,11 +8,12 @@ class PhotoUploaderSpy(AbstractPhotoUploader):
         self.file: str = ""
         self.filename: str = ""
         self.hash = ""
-        self.error = None
+        self.result = {"error": None, "message": "success"}
 
     def upload(self, file, filename):
-        if self.error:
-            raise self.error()
+        if self.result["error"]:
+            raise self.result["error"]
         self.file = file
         self.filename = filename
-        return f"{self.hash}-{self.filename}"
+        self.result["message"] = f"{self.hash}-{self.filename}"
+        return self.result

@@ -63,7 +63,7 @@ def test_should_raise_error_if_upload_fails():
     photo_uploader_spy = PhotoUploaderSpy()
     photo_repository_spy = PhotoRepositorySpy()
 
-    photo_uploader_spy.error = UploadError
+    photo_uploader_spy.result["error"] = UploadError
 
     user_id = "any_user_id"
     filename = "any_file_name"
