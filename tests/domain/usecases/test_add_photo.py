@@ -1,4 +1,7 @@
 from faker import Faker
+import pytest
+
+from src.data.errors import UploadError
 
 from src.domain.models import PhotoModel
 from src.domain.usecases import add_photo
@@ -54,3 +57,17 @@ def test_should_return_photo_model_if_upload_succeeds():
     )
 
     assert photo_model == result
+
+
+def test_should_raise_error_if_upload_fails():
+    photo_uploader_spy = PhotoUploaderSpy()
+    photo_repository_spy = PhotoRepositorySpy()
+
+    photo_uploader_spy.error = UploadError
+
+    user_id = "any_user_id"
+    filename = "any_file_name"
+    file = "any_file"
+
+    with pytest.raises(UploadError):
+        add_photo(user_id, file, filename, photo_uploader_spy, photo_repository_spy)

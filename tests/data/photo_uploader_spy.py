@@ -8,8 +8,11 @@ class PhotoUploaderSpy(AbstractPhotoUploader):
         self.file: str = ""
         self.filename: str = ""
         self.hash = ""
+        self.error = None
 
     def upload(self, file, filename):
+        if self.error:
+            raise self.error()
         self.file = file
         self.filename = filename
         return f"{self.hash}-{self.filename}"
