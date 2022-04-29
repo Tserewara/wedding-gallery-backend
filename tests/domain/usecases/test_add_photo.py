@@ -1,73 +1,69 @@
-from faker import Faker
+from typing import Tuple
 import pytest
 
+from src.data.usecases import AddPhoto
 from src.data.errors import UploadError
 
 from src.domain.models import PhotoModel
-from src.domain.usecases import add_photo
+
 from tests.data.photo_repository_spy import PhotoRepositorySpy
 from tests.data.photo_uploader_spy import PhotoUploaderSpy
 
 
-faker = Faker()
+def make_sut() -> Tuple[AddPhoto, PhotoUploaderSpy, PhotoRepositorySpy]:
+    photo_uploader_spy = PhotoUploaderSpy()
+    photo_repository_spy = PhotoRepositorySpy()
+    sut = AddPhoto(photo_uploader_spy, photo_repository_spy)
+    return sut, photo_uploader_spy, photo_repository_spy
+
+
+def mock_add_photo_params(
+    file: str = "any_file",
+    filename: str = "any_filename",
+    user_id: str = "any_user_id"
+):
+    return file, filename, user_id
 
 
 def test_should_call_photo_uploader_with_correct_params():
-    photo_uploader_spy = PhotoUploaderSpy()
-    photo_repository_spy = PhotoRepositorySpy()
+    sut, photo_uploader_spy, _ = make_sut()
 
-    file = "any_file"
-    filename = "any_file_name"
-    user_id = "any_user_id"
+    file, filename, user_id = mock_add_photo_params()
 
-    add_photo(user_id, file, filename, photo_uploader_spy, photo_repository_spy)
+    sut.add(user_id, filename, file)
 
     assert photo_uploader_spy.file == file
     assert photo_uploader_spy.filename == filename
 
 
 def test_should_add_photo_information_to_repository():
-    photo_uploader_spy = PhotoUploaderSpy()
-    photo_repository_spy = PhotoRepositorySpy()
+    sut, _, photo_repository_spy = make_sut()
 
-    user_id = "any_user_id"
-    filename = "any_file_name"
-    file = "any_file"
+    file, filename, user_id = mock_add_photo_params()
 
-    add_photo(user_id, file, filename, photo_uploader_spy, photo_repository_spy)
+    sut.add(user_id, filename, file)
 
     assert len(photo_repository_spy.photos) == 1
 
 
 def test_should_return_photo_model_if_upload_succeeds():
-    hash_string = faker.md5()
-    photo_uploader_spy = PhotoUploaderSpy()
-    photo_repository_spy = PhotoRepositorySpy()
-    photo_uploader_spy.hash = hash_string
+    sut, _, _ = make_sut()
 
-    user_id = "any_user_id"
-    filename = "any_file_name"
-    image_address = f"{hash_string}-{filename}"
-    file = "any_file"
+    file, filename, user_id = mock_add_photo_params()
 
-    photo_model = PhotoModel(user_id, image_address)
+    photo_model = PhotoModel(user_id, filename)
 
-    result = add_photo(
-        user_id, file, filename, photo_uploader_spy, photo_repository_spy
-    )
+    result = sut.add(user_id, filename, file)
 
-    assert photo_model == result
+    assert result == photo_model
 
 
 def test_should_raise_error_if_upload_fails():
-    photo_uploader_spy = PhotoUploaderSpy()
-    photo_repository_spy = PhotoRepositorySpy()
+    sut, photo_uploader_spy, _ = make_sut()
 
     photo_uploader_spy.result["error"] = UploadError
 
-    user_id = "any_user_id"
-    filename = "any_file_name"
-    file = "any_file"
+    file, filename, user_id = mock_add_photo_params()
 
     with pytest.raises(UploadError):
-        add_photo(user_id, file, filename, photo_uploader_spy, photo_repository_spy)
+        sut.add(user_id, filename, file)
