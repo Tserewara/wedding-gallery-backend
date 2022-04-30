@@ -21,7 +21,7 @@ class Authentication(AbstractAuthentication):
         if not user:
             raise error
 
-        result = self.password_encryptor.check_password(password, user.password)
+        result = self.password_encryptor.check_password(password, user["password"])
 
         if not result:
             raise error

@@ -6,14 +6,21 @@ from src.data.protocols import AbstractUserRepository
 
 class UserRepositorySpy(AbstractUserRepository):
     def __init__(self) -> None:
-        self.users: List[UserModel] = []
+        self.users: List = []
 
     def add(self, user: UserModel) -> None:
-        self.users.append(user)
+        self.users.append(
+            {
+                "name": user.name,
+                "email": user.email,
+                "password": user.password,
+                "is_admin": user.is_admin,
+            }
+        )
 
     def find_user_by_email(self, email):
         for user in self.users:
-            if user.email == email:
+            if user["email"] == email:
                 return user
 
     def find_user_by_id(self, user_id: str):
