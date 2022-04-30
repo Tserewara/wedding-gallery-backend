@@ -1,13 +1,10 @@
 from flask import request
 from flask.views import MethodView
 
-from src.main.factories.infra.mongo_photo_repository_factory import (
-    mongo_photo_repository_factory,
-)
+from src.main.factories.domain.usecases.add_comment_factory import add_comment_factory
 
-from src.data.usecases import AddComment
 
-add_comment = AddComment(mongo_photo_repository_factory())
+add_comment = add_comment_factory()
 
 
 class AddCommentController(MethodView):
