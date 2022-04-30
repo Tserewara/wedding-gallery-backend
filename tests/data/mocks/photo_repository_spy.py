@@ -7,6 +7,7 @@ class PhotoRepositorySpy(AbstractPhotoRepository):
     def __init__(self) -> None:
         self.photos = []
         self.likes = []
+        self.comments = []
 
     def add(self, photo: PhotoModel):
         self.photos.append(photo)
@@ -24,3 +25,6 @@ class PhotoRepositorySpy(AbstractPhotoRepository):
 
         if fieldname == "likes":
             self.likes.append(value)
+
+        if fieldname == "comments":
+            self.comments.append(value)
