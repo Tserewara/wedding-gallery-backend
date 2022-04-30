@@ -1,8 +1,7 @@
 from flask import jsonify, request
 from flask.views import MethodView
-from pymongo import MongoClient
 
-from src.domain.errors import EmailInUseError
+from src.domain.errors import EmailInUseError, MissingParamError
 from src.data.usecases import CreateUser
 from src.infra.mongo_user_repository import MongoUserRepository
 from src.infra.passlib_password_encryptor import PasslibPasswordEncryptor
@@ -30,5 +29,6 @@ class UsersController(MethodView):
 
             return jsonify(msg="user created successfully"), 201
 
-        except EmailInUseError as e:
-            return jsonify(msg=str(e)), 409
+        except (EmailInUseError, MissingParamError) as e:
+            status_code = 409 if type(e) == "MissingParamError" else 400
+            return jsonify(msg=str(e)), status_code
