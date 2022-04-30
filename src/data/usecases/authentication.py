@@ -1,3 +1,4 @@
+from typing import Tuple
 from src.data.protocols import AbstractPasswordEncryptor, AbstractUserRepository
 from src.domain.usecases import AbstractAuthentication
 from src.domain.models import UserModel
@@ -12,7 +13,7 @@ class Authentication(AbstractAuthentication):
     ) -> None:
         super().__init__(user_repository, password_encryptor)
 
-    def auth(self, email, password):
+    def auth(self, email, password) -> Tuple[bool, str]:
 
         user: UserModel = self.user_repository.find_user_by_email(email)
 
@@ -21,9 +22,9 @@ class Authentication(AbstractAuthentication):
         if not user:
             raise error
 
-        result = self.password_encryptor.check_password(password, user["password"])
+        auth_result = self.password_encryptor.check_password(password, user["password"])
 
-        if not result:
+        if not auth_result:
             raise error
 
-        return result
+        return auth_result, str(user["_id"])

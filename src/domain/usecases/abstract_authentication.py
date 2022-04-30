@@ -1,4 +1,5 @@
 import abc
+from typing import Tuple
 
 from src.data.protocols import AbstractUserRepository
 from src.data.protocols import AbstractPasswordEncryptor
@@ -14,5 +15,5 @@ class AbstractAuthentication(abc.ABC):
         self.password_encryptor = password_encryptor
 
     @abc.abstractmethod
-    def auth(self, email, password):
+    def auth(self, email, password) -> Tuple[bool, str]:
         raise NotImplementedError
