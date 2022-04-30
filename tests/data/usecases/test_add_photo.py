@@ -5,6 +5,7 @@ from src.data.usecases import AddPhoto
 from src.data.errors import UploadError
 
 from src.domain.models import PhotoModel
+from src.domain.errors import MissingParamError
 
 from tests.data.mocks.photo_repository_spy import PhotoRepositorySpy
 from tests.data.mocks.photo_uploader_spy import PhotoUploaderSpy
@@ -32,6 +33,17 @@ def test_should_call_photo_uploader_with_correct_params():
 
     assert photo_uploader_spy.file == file
     assert photo_uploader_spy.filename == filename
+
+
+def test_should_raise_error_if_filename_is_not_passed():
+    sut, photo_uploader_spy, _ = make_sut()
+
+    photo_uploader_spy.result["error"] = UploadError
+
+    file, _, user_id = mock_add_photo_params()
+
+    with pytest.raises(MissingParamError):
+        sut.add(user_id, None, file)
 
 
 def test_should_add_photo_information_to_repository():
