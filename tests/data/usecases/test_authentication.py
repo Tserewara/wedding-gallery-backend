@@ -40,7 +40,7 @@ def test_should_return_true_if_authentication_succeeds():
     assert sut.auth(email, password)
 
 
-def test_should_raise_wrong_credentials_error_if_email_is_not_found():
+def test_should_raise_wrong_credentials_error_if_email_is_wrong():
     sut, user_repository_spy, password_encryptor_spy = make_sut()
 
     email, password = mock_authentication_params()
