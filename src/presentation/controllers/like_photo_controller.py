@@ -1,12 +1,10 @@
 from flask import request
 from flask.views import MethodView
 
-from src.data.usecases import LikePhoto
-from src.main.factories.infra.mongo_photo_repository_factory import (
-    mongo_photo_repository_factory,
-)
+from src.main.factories.domain.usecases.like_photo_factory import like_photo_factory
 
-like_photo = LikePhoto(mongo_photo_repository_factory())
+
+like_photo = like_photo_factory()
 
 
 class LikePhotoController(MethodView):
