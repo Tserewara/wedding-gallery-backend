@@ -1,4 +1,5 @@
 from typing import List
+import uuid
 
 from src.domain.models import UserModel
 from src.data.protocols import AbstractUserRepository
@@ -11,6 +12,7 @@ class UserRepositorySpy(AbstractUserRepository):
     def add(self, user: UserModel) -> None:
         self.users.append(
             {
+                "_id": uuid.uuid4(),
                 "name": user.name,
                 "email": user.email,
                 "password": user.password,
