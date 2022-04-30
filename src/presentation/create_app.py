@@ -5,7 +5,7 @@ from flask_jwt_extended import JWTManager
 from src.presentation.controllers.authentication_controller import (
     AuthenticationController,
 )
-from src.presentation.controllers.users_controller import UsersController
+from src.presentation.controllers.create_user_controller import CreateUserController
 
 
 def create_app() -> Flask:
@@ -14,7 +14,7 @@ def create_app() -> Flask:
     JWTManager(app)
 
     app.add_url_rule(
-        "/users", methods=["POST"], view_func=UsersController.as_view("users")
+        "/users", methods=["POST"], view_func=CreateUserController.as_view("users")
     )
 
     app.add_url_rule(

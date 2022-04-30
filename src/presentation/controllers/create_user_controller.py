@@ -8,7 +8,7 @@ from src.domain.errors import EmailInUseError, MissingParamError
 create_user = create_user_factory()
 
 
-class UsersController(MethodView):
+class CreateUserController(MethodView):
     def post(self):
 
         try:

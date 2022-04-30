@@ -1,5 +1,4 @@
 from datetime import timedelta
-from email import message
 from flask import jsonify, request
 from flask.views import MethodView
 from flask_jwt_extended import (
