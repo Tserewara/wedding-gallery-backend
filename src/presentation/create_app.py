@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask_jwt_extended import JWTManager
 
+from src.presentation.controllers.add_comment_controller import AddCommentController
 from src.presentation.controllers.like_photo_controller import LikePhotoController
 from src.presentation.controllers.approve_photo_controller import ApprovePhotoController
 from src.presentation.controllers.authentication_controller import (
@@ -41,6 +42,12 @@ def create_app() -> Flask:
         "/like",
         methods=["POST"],
         view_func=LikePhotoController.as_view("like_photo"),
+    )
+
+    app.add_url_rule(
+        "/comment",
+        methods=["POST"],
+        view_func=AddCommentController.as_view("comment_photo"),
     )
 
     return app
