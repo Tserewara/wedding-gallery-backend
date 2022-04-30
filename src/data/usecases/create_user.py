@@ -1,7 +1,6 @@
-from src.data.protocols import AbstractPasswordEncryptor
-from src.domain.errors import EmailInUseError
-from src.data.protocols import AbstractUserRepository
-from src.domain.models.user_model import UserModel
+from src.domain.errors import EmailInUseError, MissingParamError
+from src.data.protocols import AbstractUserRepository, AbstractPasswordEncryptor
+from src.domain.models import UserModel
 from src.domain.usecases import AbstractCreateUser
 
 
@@ -20,6 +19,11 @@ class CreateUser(AbstractCreateUser):
         password: str,
         is_admin: bool,
     ) -> UserModel:
+
+        if not name:
+            raise MissingParamError(
+                "Parameter missing. Make sure to fill name, email and password"
+            )
 
         if self.user_repository.find_user_by_email(email):
             raise EmailInUseError("Email already in use")
