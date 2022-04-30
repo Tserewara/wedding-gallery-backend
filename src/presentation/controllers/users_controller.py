@@ -1,18 +1,11 @@
 from flask import jsonify, request
 from flask.views import MethodView
 
+from src.main.factories.domain.usecases.create_user_factory import create_user_factory
 from src.domain.errors import EmailInUseError, MissingParamError
-from src.data.usecases import CreateUser
-from src.infra.mongo_user_repository import MongoUserRepository
-from src.infra.passlib_password_encryptor import PasslibPasswordEncryptor
 
 
-from src.infra.mongo_client import client
-
-user_repository = MongoUserRepository(client, "friends-gallery", "users")
-password_encryptor = PasslibPasswordEncryptor()
-
-create_user = CreateUser(user_repository, password_encryptor)
+create_user = create_user_factory()
 
 
 class UsersController(MethodView):
