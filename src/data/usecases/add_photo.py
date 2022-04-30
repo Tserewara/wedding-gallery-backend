@@ -1,3 +1,4 @@
+from src.domain.errors import MissingParamError
 from src.domain.models import PhotoModel
 from src.domain.usecases import AbstractAddPhoto
 from src.data.protocols import AbstractPhotoUploader, AbstractPhotoRepository
@@ -13,6 +14,12 @@ class AddPhoto(AbstractAddPhoto):
         super().__init__(photo_uploader, photo_repository)
 
     def add(self, user_id: str, filename: str, file):
+
+        if None in [filename]:
+            raise MissingParamError(
+                "Parameter missing. Make sure to provide user_id, filename and file"
+            )
+
         result = self.photo_uploader.upload(file, filename)
 
         if result["error"]:
