@@ -4,16 +4,13 @@ from flask.views import MethodView
 from flask_jwt_extended import (
     create_access_token,
 )
+from src.main.factories.domain.usecases.authentication_factory import (
+    authentication_factory,
+)
 from src.domain.errors import WrongCredentialsError
-from src.data.usecases import Authentication
-from src.main.factories.infra import (
-    mongo_user_repository_factory,
-    passlib_password_encryptor_factory,
-)
 
-authentication = Authentication(
-    mongo_user_repository_factory(), passlib_password_encryptor_factory()
-)
+
+authentication = authentication_factory()
 
 
 class AuthenticationController(MethodView):

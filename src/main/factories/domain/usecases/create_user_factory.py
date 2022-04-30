@@ -5,7 +5,7 @@ from src.main.factories.infra import (
 from src.data.usecases import CreateUser
 
 
-def create_user_factory():
+def create_user_factory() -> CreateUser:
 
     return CreateUser(
         mongo_user_repository_factory(), passlib_password_encryptor_factory()
