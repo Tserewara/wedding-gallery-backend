@@ -1,9 +1,8 @@
 from bson import ObjectId
 from pymongo.collection import Collection
 from pymongo.database import Database
+
 from src.domain.models import PhotoModel
-
-
 from src.data.protocols import AbstractPhotoRepository
 
 
