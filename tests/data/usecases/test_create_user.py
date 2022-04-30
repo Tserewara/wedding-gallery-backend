@@ -52,6 +52,15 @@ def test_should_raise_missing_param_error_if_email_is_not_passed():
         sut.create(name, None, password, is_admin)
 
 
+def test_should_raise_missing_param_error_if_password_is_not_passed():
+    name, email, password, is_admin = mock_user_params()
+
+    sut, _, _ = make_sut()
+
+    with pytest.raises(MissingParamError):
+        sut.create(name, email, None, is_admin)
+
+
 def test_should_encrypt_password_when_creating_user():
     name, email, password, is_admin = mock_user_params()
 
