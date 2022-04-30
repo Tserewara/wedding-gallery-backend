@@ -47,14 +47,21 @@ def test_should_raise_error_if_filename_is_not_passed():
 
 
 def test_should_raise_error_if_file_is_not_passed():
-    sut, photo_uploader_spy, _ = make_sut()
-
-    photo_uploader_spy.result["error"] = MissingParamError
+    sut, _, _ = make_sut()
 
     _, filename, user_id = mock_add_photo_params()
 
     with pytest.raises(MissingParamError):
-        sut.add(user_id, filename, _)
+        sut.add(user_id, filename, None)
+
+
+def test_should_raise_error_if_user_id_is_not_passed():
+    sut, _, _ = make_sut()
+
+    file, filename, _ = mock_add_photo_params()
+
+    with pytest.raises(MissingParamError):
+        sut.add(None, filename, file)
 
 
 def test_should_add_photo_information_to_repository():
