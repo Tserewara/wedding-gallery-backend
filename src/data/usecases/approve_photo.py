@@ -29,4 +29,4 @@ class ApprovePhoto(AbstractApprovePhoto):
         if not user.is_admin:
             raise PermissionDeniedError("You don't have permission to approve photos")
 
-        self.photo_repository.update_photo(photo_id, "is_admin", True)
+        self.photo_repository.update_photo(photo_id, "is_approved", True)
