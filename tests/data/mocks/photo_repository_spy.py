@@ -6,6 +6,7 @@ from src.domain.models import PhotoModel
 class PhotoRepositorySpy(AbstractPhotoRepository):
     def __init__(self) -> None:
         self.photos = []
+        self.likes = []
 
     def add(self, photo: PhotoModel):
         self.photos.append(photo)
@@ -17,4 +18,9 @@ class PhotoRepositorySpy(AbstractPhotoRepository):
 
     def update_photo(self, photo_id: str, fieldname: str, value=Any):
         photo = self.find_photo_by_id(photo_id)
-        photo.is_approved = value
+
+        if fieldname == "is_approved":
+            photo.is_approved = value
+
+        if fieldname == "likes":
+            self.likes.append(value)

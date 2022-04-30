@@ -1,8 +1,5 @@
 import pytest
 
-from src.domain.models import PhotoModel
-
-
 from src.data.usecases import ApprovePhoto
 from src.domain.models import UserModel
 from src.domain.errors import (
@@ -13,6 +10,7 @@ from src.domain.errors import (
 from tests.data.mocks.photo_repository_spy import PhotoRepositorySpy
 from tests.data.mocks.user_repository_spy import UserRepositorySpy
 from tests.domain.models.mocks.mock_user_params import mock_user_params
+from tests.domain.models.mocks.mock_photo_model import mock_photo_model
 
 
 def make_sut():
@@ -27,11 +25,6 @@ def make_sut():
 def mock_user_model(is_admin: bool = False):
     name, email, password, _ = mock_user_params()
     return UserModel(name, email, password, is_admin=is_admin)
-
-
-def mock_photo_model(user_id: str = "0"):
-    image_address = "any_image_address"
-    return PhotoModel(user_id, image_address)
 
 
 def test_should_raise_user_not_found_error_if_user_does_not_exist():
