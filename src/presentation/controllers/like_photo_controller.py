@@ -16,4 +16,4 @@ class LikePhotoController(MethodView):
             user_id=request.json.get("user_id"), photo_id=request.json.get("photo_id")
         )
 
-        return "like", 200
+        return ("", 204)
