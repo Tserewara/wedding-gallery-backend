@@ -20,7 +20,7 @@ class CreateUser(AbstractCreateUser):
         is_admin: bool,
     ) -> UserModel:
 
-        if not name or not email:
+        if not name or not email or not password:
             raise MissingParamError(
                 "Parameter missing. Make sure to fill name, email and password"
             )
