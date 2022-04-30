@@ -1,14 +1,5 @@
-from src.data.protocols import AbstractPhotoRepository
-from src.domain.usecases import AbstractLikePhoto
+from src.data.usecases import LikePhoto
 from tests.data.mocks.photo_repository_spy import PhotoRepositorySpy
-
-
-class LikePhoto(AbstractLikePhoto):
-    def __init__(self, photo_repository: AbstractPhotoRepository) -> None:
-        super().__init__(photo_repository)
-
-    def like(self, user_id, photo_id):
-        self.photo_repository.update_photo(photo_id, "likes", user_id)
 
 
 def test_should_like_photo():
