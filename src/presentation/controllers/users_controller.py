@@ -19,11 +19,16 @@ create_user = CreateUser(user_repository, password_encryptor)
 class UsersController(MethodView):
     def post(self):
 
-        create_user.create(
-            name=request.json.get("name"),
-            email=request.json.get("email"),
-            password=request.json.get("password"),
-            is_admin=request.json.get("is_admin"),
-        )
+        try:
 
-        return jsonify(msg="user created successfully"), 201
+            create_user.create(
+                name=request.json.get("name"),
+                email=request.json.get("email"),
+                password=request.json.get("password"),
+                is_admin=request.json.get("is_admin"),
+            )
+
+            return jsonify(msg="user created successfully"), 201
+
+        except EmailInUseError as e:
+            return jsonify(msg=str(e)), 409
