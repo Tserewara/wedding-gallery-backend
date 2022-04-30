@@ -15,7 +15,7 @@ class AddPhoto(AbstractAddPhoto):
 
     def add(self, user_id: str, filename: str, file):
 
-        if None in [filename]:
+        if None in [filename, file]:
             raise MissingParamError(
                 "Parameter missing. Make sure to provide user_id, filename and file"
             )
