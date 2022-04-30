@@ -1,17 +1,12 @@
 from flask import jsonify, request
 from flask.views import MethodView
 
+from src.main.factories.domain.usecases.add_photo_factory import add_photo_factory
 from src.domain.errors import MissingParamError
-
 from src.data.errors import UploadError
-from src.main.factories.infra.mongo_client_factory import mongo_client_factory
-from src.data.usecases import AddPhoto
-from src.infra.s3.s3_photo_uploader import S3PhotoUploader
-from src.infra.mongo.mongo_photo_repository import MongoPhotoRepository
 
-photo_uploader = S3PhotoUploader()
-photo_repository = MongoPhotoRepository(*mongo_client_factory(), "photos")
-add_photo = AddPhoto(photo_uploader, photo_repository)
+
+add_photo = add_photo_factory()
 
 
 class AddPhotoController(MethodView):
