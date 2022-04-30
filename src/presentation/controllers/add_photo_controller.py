@@ -1,6 +1,8 @@
 from flask import jsonify, request
 from flask.views import MethodView
 
+from src.domain.errors import MissingParamError
+
 from src.data.errors import UploadError
 from src.main.factories.infra.mongo_client_factory import mongo_client_factory
 from src.data.usecases import AddPhoto
@@ -18,12 +20,14 @@ class AddPhotoController(MethodView):
         try:
 
             file = request.files.get("photo")
+            filename = file.filename if file else None
 
             add_photo.add(
-                user_id=request.form.get("user_id"), filename=file.filename, file=file
+                user_id=request.form.get("user_id"), filename=filename, file=file
             )
 
             return jsonify(msg="photo added successfully"), 201
 
-        except UploadError as e:
-            return jsonify(msg=str(e))
+        except (UploadError, MissingParamError) as e:
+            status_code = 500 if type(e) == "UploadError" else 400
+            return jsonify(msg=str(e)), status_code

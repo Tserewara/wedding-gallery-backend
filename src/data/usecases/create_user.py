@@ -21,9 +21,7 @@ class CreateUser(AbstractCreateUser):
     ) -> UserModel:
 
         if None in [name, email, password]:
-            raise MissingParamError(
-                "Parameter missing. Make sure to fill name, email and password"
-            )
+            raise MissingParamError("You must fill name, email and password")
 
         if self.user_repository.find_user_by_email(email):
             raise EmailInUseError("Email already in use")

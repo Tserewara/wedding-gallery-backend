@@ -16,9 +16,7 @@ class AddPhoto(AbstractAddPhoto):
     def add(self, user_id: str, filename: str, file):
 
         if None in [filename, file, user_id]:
-            raise MissingParamError(
-                "Parameter missing. Make sure to provide user_id, filename and file"
-            )
+            raise MissingParamError("You must add a photo")
 
         result = self.photo_uploader.upload(file, filename)
 
