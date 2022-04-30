@@ -4,4 +4,9 @@ from .authentication import Authentication
 from .approve_photo import ApprovePhoto
 
 
-__all__ = ["AddPhoto", "CreateUser", "Authentication", "ApprovePhoto"]
+__all__ = [
+    "AddPhoto",
+    "CreateUser",
+    "Authentication",
+    "ApprovePhoto",
+]
