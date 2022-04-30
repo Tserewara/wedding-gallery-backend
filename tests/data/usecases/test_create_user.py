@@ -1,6 +1,6 @@
 import pytest
 
-from src.domain.errors import EmailInUseError
+from src.domain.errors import EmailInUseError, MissingParamError
 from src.data.usecases import CreateUser
 
 from tests.data.mocks.user_repository_spy import UserRepositorySpy
@@ -32,6 +32,15 @@ def test_should_raise_email_in_user_error_if_email_already_exists():
 
     with pytest.raises(EmailInUseError):
         sut.create(name, email, password, is_admin)
+
+
+def test_should_raise_missing_param_error_if_name_is_not_passed():
+    _, email, password, is_admin = mock_user_params()
+
+    sut, _, _ = make_sut()
+
+    with pytest.raises(MissingParamError):
+        sut.create(None, email, password, is_admin)
 
 
 def test_should_encrypt_password_when_creating_user():
