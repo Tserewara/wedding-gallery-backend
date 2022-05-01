@@ -1,3 +1,4 @@
+import json
 from bson import ObjectId
 from pymongo.collection import Collection
 from pymongo.database import Database
@@ -26,3 +27,6 @@ class MongoPhotoRepository(AbstractPhotoRepository):
         self._collection.update_one(
             {"_id": ObjectId(photo_id)}, {action[fieldname]: {fieldname: value}}
         )
+
+    def list_approved_photos(self, skips, per_page):
+        return self._collection.find({"is_approved": True}).skip(skips).limit(per_page)

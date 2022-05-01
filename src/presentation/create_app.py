@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask_jwt_extended import JWTManager
 
+from src.presentation.controllers.list_photos_controller import ListPhotosController
 from src.presentation.controllers.add_comment_controller import AddCommentController
 from src.presentation.controllers.like_photo_controller import LikePhotoController
 from src.presentation.controllers.approve_photo_controller import ApprovePhotoController
@@ -30,6 +31,12 @@ def create_app() -> Flask:
         "/photos",
         methods=["POST"],
         view_func=AddPhotoController.as_view("photos"),
+    )
+
+    app.add_url_rule(
+        "/photos",
+        methods=["GET"],
+        view_func=ListPhotosController.as_view("list_photos"),
     )
 
     app.add_url_rule(

@@ -16,3 +16,7 @@ class AbstractPhotoRepository(abc.ABC):
     @abc.abstractmethod
     def update_photo(self, photo_id: str, fieldname: str, value=Any):
         raise NotImplementedError
+
+    @abc.abstractmethod
+    def list_approved_photos(self):
+        raise NotImplementedError
