@@ -1,5 +1,5 @@
-from src.main.factories.infra.mongo_client_factory import mongo_client_factory
-from src.infra.mongo.mongo_photo_repository import MongoPhotoRepository
+from src.main.factories.infra import mongo_client_factory
+from src.infra.mongo import MongoPhotoRepository
 
 
 def mongo_photo_repository_factory():

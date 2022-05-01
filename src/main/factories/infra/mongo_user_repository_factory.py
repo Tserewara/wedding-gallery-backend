@@ -1,5 +1,5 @@
-from src.main.factories.infra.mongo_client_factory import mongo_client_factory
-from src.infra.mongo.mongo_user_repository import MongoUserRepository
+from src.main.factories.infra import mongo_client_factory
+from src.infra.mongo import MongoUserRepository
 
 
 def mongo_user_repository_factory():

@@ -2,11 +2,9 @@ from flask import jsonify, request
 from flask.views import MethodView
 from flask_jwt_extended import jwt_required
 
-from src.main.factories.domain.usecases.approve_photo_factory import (
-    approve_photo_factory,
-)
-from src.domain.errors.photo_not_found_error import PhotoNotFoundError
-from src.domain.errors.user_not_found_error import UserNotFoundError
+from src.main.factories.domain.usecases import approve_photo_factory
+from src.domain.errors import PhotoNotFoundError
+from src.domain.errors import UserNotFoundError
 
 
 approve_photo = approve_photo_factory()

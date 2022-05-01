@@ -1,5 +1,5 @@
-from src.main.factories.infra.s3_photo_uploader_factory import s3_photo_uploader_factory
-from src.main.factories.infra.mongo_photo_repository_factory import (
+from src.main.factories.infra import (
+    s3_photo_uploader_factory,
     mongo_photo_repository_factory,
 )
 from src.data.usecases import AddPhoto

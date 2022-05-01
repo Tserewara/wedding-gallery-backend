@@ -2,15 +2,15 @@ import os
 from flask import Flask
 from flask_jwt_extended import JWTManager
 
-from src.presentation.controllers.list_photos_controller import ListPhotosController
-from src.presentation.controllers.add_comment_controller import AddCommentController
-from src.presentation.controllers.like_photo_controller import LikePhotoController
-from src.presentation.controllers.approve_photo_controller import ApprovePhotoController
-from src.presentation.controllers.authentication_controller import (
+from src.presentation.controllers import (
+    AddCommentController,
+    AddPhotoController,
+    ApprovePhotoController,
     AuthenticationController,
+    CreateUserController,
+    LikePhotoController,
+    ListPhotosController,
 )
-from src.presentation.controllers.create_user_controller import CreateUserController
-from src.presentation.controllers.add_photo_controller import AddPhotoController
 
 
 def create_app() -> Flask:

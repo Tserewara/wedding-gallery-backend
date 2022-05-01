@@ -2,7 +2,7 @@ from flask import jsonify, request
 from flask.views import MethodView
 from flask_jwt_extended import jwt_required
 
-from src.main.factories.domain.usecases.add_photo_factory import add_photo_factory
+from src.main.factories.domain.usecases import add_photo_factory
 from src.domain.errors import MissingParamError
 from src.data.errors import UploadError
 

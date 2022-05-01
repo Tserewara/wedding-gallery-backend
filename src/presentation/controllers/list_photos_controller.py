@@ -3,9 +3,8 @@ from flask.views import MethodView
 from flask_jwt_extended import jwt_required
 
 from src.presentation.helpers.serializers import serialize_photo
-from src.main.factories.infra.mongo_photo_repository_factory import (
-    mongo_photo_repository_factory,
-)
+from src.main.factories.infra import mongo_photo_repository_factory
+
 
 photo_repository = mongo_photo_repository_factory()
 

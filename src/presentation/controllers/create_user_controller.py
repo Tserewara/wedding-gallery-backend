@@ -1,7 +1,7 @@
 from flask import jsonify, request
 from flask.views import MethodView
 
-from src.main.factories.domain.usecases.create_user_factory import create_user_factory
+from src.main.factories.domain.usecases import create_user_factory
 from src.domain.errors import EmailInUseError, MissingParamError
 
 

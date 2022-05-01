@@ -1,12 +1,8 @@
 from datetime import timedelta
 from flask import jsonify, request
 from flask.views import MethodView
-from flask_jwt_extended import (
-    create_access_token,
-)
-from src.main.factories.domain.usecases.authentication_factory import (
-    authentication_factory,
-)
+from flask_jwt_extended import create_access_token
+from src.main.factories.domain.usecases import authentication_factory
 from src.domain.errors import WrongCredentialsError
 
 

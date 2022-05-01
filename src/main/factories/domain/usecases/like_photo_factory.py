@@ -1,7 +1,5 @@
 from src.data.usecases import LikePhoto
-from src.main.factories.infra.mongo_photo_repository_factory import (
-    mongo_photo_repository_factory,
-)
+from src.main.factories.infra import mongo_photo_repository_factory
 
 
 def like_photo_factory():
