@@ -20,7 +20,9 @@ def create_app() -> Flask:
     JWTManager(app)
 
     app.add_url_rule(
-        "/users", methods=["POST"], view_func=CreateUserController.as_view("users")
+        "/register",
+        methods=["POST"],
+        view_func=CreateUserController.as_view("register"),
     )
 
     app.add_url_rule(

@@ -1,6 +1,6 @@
 from flask import request
 from flask.views import MethodView
-
+from flask_jwt_extended import jwt_required
 from src.main.factories.domain.usecases.add_comment_factory import add_comment_factory
 
 
@@ -8,6 +8,7 @@ add_comment = add_comment_factory()
 
 
 class AddCommentController(MethodView):
+    @jwt_required()
     def post(self):
 
         add_comment.comment(

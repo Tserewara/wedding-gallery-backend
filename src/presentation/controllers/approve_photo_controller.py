@@ -1,5 +1,6 @@
 from flask import jsonify, request
 from flask.views import MethodView
+from flask_jwt_extended import jwt_required
 
 from src.main.factories.domain.usecases.approve_photo_factory import (
     approve_photo_factory,
@@ -12,6 +13,7 @@ approve_photo = approve_photo_factory()
 
 
 class ApprovePhotoController(MethodView):
+    @jwt_required()
     def patch(self):
 
         try:
