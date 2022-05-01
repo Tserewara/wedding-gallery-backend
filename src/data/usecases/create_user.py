@@ -20,7 +20,7 @@ class CreateUser(AbstractCreateUser):
         is_admin: bool,
     ) -> UserModel:
 
-        if None in [name, email, password]:
+        if not all([name, email, password]):
             raise MissingParamError("You must fill name, email and password")
 
         if self.user_repository.find_user_by_email(email):

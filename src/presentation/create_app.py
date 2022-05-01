@@ -1,6 +1,7 @@
 import os
 from flask import Flask
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 from src.presentation.controllers import (
     AddCommentController,
@@ -16,6 +17,7 @@ from src.presentation.controllers import (
 def create_app() -> Flask:
 
     app = Flask(__name__)
+    CORS(app)
     app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET_KEY")
     JWTManager(app)
 

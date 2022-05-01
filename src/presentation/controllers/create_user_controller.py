@@ -22,6 +22,7 @@ class CreateUserController(MethodView):
 
             return jsonify(msg="user created successfully"), 201
 
-        except (EmailInUseError, MissingParamError) as e:
-            status_code = 409 if type(e) == "EmailInUseError" else 400
-            return jsonify(msg=str(e)), status_code
+        except EmailInUseError as e:
+            return jsonify(msg=str(e)), 409
+        except MissingParamError as e:
+            return jsonify(msg=str(e)), 400
