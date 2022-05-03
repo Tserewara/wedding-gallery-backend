@@ -8,5 +8,5 @@ class AbstractAddComment(abc.ABC):
         self.photo_repository = photo_repository
 
     @abc.abstractmethod
-    def comment(self, user_id, photo_id, text):
+    def comment(self, username, photo_id, text):
         raise NotImplementedError
