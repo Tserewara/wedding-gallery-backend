@@ -18,6 +18,7 @@ class AbstractAddPhoto(abc.ABC):
     def add(
         self,
         user_id: str,
+        username: str,
         filename: str,
         file: Any,
     ):

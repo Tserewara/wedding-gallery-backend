@@ -13,17 +13,17 @@ class AddPhoto(AbstractAddPhoto):
     ) -> None:
         super().__init__(photo_uploader, photo_repository)
 
-    def add(self, user_id: str, filename: str, file):
+    def add(self, user_id: str, username, filename: str, file):
 
-        if not all([filename, file, user_id]):
-            raise MissingParamError("You must add a photo")
+        if not all([filename, file, user_id, username]):
+            raise MissingParamError("Parameter missing")
 
         result = self.photo_uploader.upload(file, filename)
 
         if result["error"]:
             raise UploadError("An error occurred while uploading this photo.")
 
-        photo = PhotoModel(user_id, result["message"])
+        photo = PhotoModel(user_id, username=username, image_address=result["message"])
 
         self.photo_repository.add(photo)
 

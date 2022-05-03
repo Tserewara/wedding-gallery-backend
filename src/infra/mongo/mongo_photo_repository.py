@@ -14,7 +14,11 @@ class MongoPhotoRepository(AbstractPhotoRepository):
 
     def add(self, photo: PhotoModel) -> None:
         self._collection.insert_one(
-            {"image_address": photo.image_address, "user_id": photo.user_id}
+            {
+                "image_address": photo.image_address,
+                "user_id": photo.user_id,
+                "username": photo.username,
+            }
         )
 
     def find_photo_by_id(self, photo_id: str) -> PhotoModel:
