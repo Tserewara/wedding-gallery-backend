@@ -25,6 +25,8 @@ class AddPhotoController(MethodView):
 
             return jsonify(msg="photo added successfully"), 201
 
-        except (UploadError, MissingParamError) as e:
-            status_code = 500 if type(e) == "UploadError" else 400
-            return jsonify(msg=str(e)), status_code
+        except UploadError as e:
+            return jsonify(msg=str(e)), 500
+
+        except MissingParamError as e:
+            return jsonify(msg=str(e)), 400
