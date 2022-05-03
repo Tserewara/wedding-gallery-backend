@@ -27,5 +27,5 @@ class MongoPhotoRepository(AbstractPhotoRepository):
             {"_id": ObjectId(photo_id)}, {action[fieldname]: {fieldname: value}}
         )
 
-    def list_approved_photos(self, skips, per_page):
-        return self._collection.find({"is_approved": True}).skip(skips).limit(per_page)
+    def list_photos(self, skips, per_page, filter):
+        return self._collection.find(filter).skip(skips).limit(per_page)

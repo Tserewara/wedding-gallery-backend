@@ -29,5 +29,5 @@ class PhotoRepositorySpy(AbstractPhotoRepository):
         if fieldname == "comments":
             self.comments.append(value)
 
-    def list_approved_photos(self):
+    def list_photos(self):
         pass

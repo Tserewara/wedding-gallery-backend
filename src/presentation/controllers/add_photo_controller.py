@@ -11,7 +11,7 @@ add_photo = add_photo_factory()
 
 
 class AddPhotoController(MethodView):
-    @jwt_required()
+    # @jwt_required()
     def post(self):
 
         try:
