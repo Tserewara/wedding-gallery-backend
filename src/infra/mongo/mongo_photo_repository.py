@@ -18,6 +18,8 @@ class MongoPhotoRepository(AbstractPhotoRepository):
                 "image_address": photo.image_address,
                 "user_id": photo.user_id,
                 "username": photo.username,
+                "comments": [],
+                "likes": [],
             }
         )
 
