@@ -25,6 +25,6 @@ class AddPhoto(AbstractAddPhoto):
 
         photo = PhotoModel(user_id, username=username, image_address=result["message"])
 
-        self.photo_repository.add(photo)
+        photo_id = self.photo_repository.add(photo)
 
-        return photo
+        return photo, photo_id

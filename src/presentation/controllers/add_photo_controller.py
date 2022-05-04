@@ -24,21 +24,21 @@ class AddPhotoController(MethodView):
 
             username = user_repository.find_user_by_id(user_id)["name"]
 
-            photo = add_photo.add(
+            photo, photo_id = add_photo.add(
                 user_id=user_id, username=username, filename=filename, file=file
             )
 
             serialized_photo_model = {
+                "_id": str(photo_id),
                 "user_id": photo.user_id,
                 "username": photo.username,
                 "image_address": photo.image_address,
                 "is_approved": photo.is_approved,
+                "likes": [],
+                "comments": [],
             }
 
-            return (
-                jsonify({"msg": "photo added successfully", **serialized_photo_model}),
-                201,
-            )
+            return jsonify(serialized_photo_model), 201
 
         except UploadError as e:
             return jsonify(msg=str(e)), 500
