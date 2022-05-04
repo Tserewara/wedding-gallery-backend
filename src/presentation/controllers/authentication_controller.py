@@ -17,7 +17,7 @@ class AuthenticationController(MethodView):
             )
 
             access_token = create_access_token(
-                identity=str(user_id), expires_delta=timedelta(minutes=30)
+                identity=str(user_id), expires_delta=timedelta(hours=2)
             )
 
             return jsonify({"token": access_token, "user_id": user_id}), 200

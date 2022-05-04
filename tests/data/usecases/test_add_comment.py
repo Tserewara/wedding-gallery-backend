@@ -20,10 +20,10 @@ def test_should_like_photo():
     photo_repository_spy = PhotoRepositorySpy()
     sut = AddComment(photo_repository_spy)
 
-    user_id = "0"
+    username = "any_username"
     photo_id = "0"
     text = "A comment"
 
-    sut.comment(user_id, photo_id, text)
+    sut.comment(username, photo_id, text)
 
-    assert photo_repository_spy.comments == [{user_id: text}]
+    assert photo_repository_spy.comments == [{"username": username, "text": text}]
