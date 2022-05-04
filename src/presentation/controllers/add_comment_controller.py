@@ -1,4 +1,4 @@
-from flask import request
+from flask import jsonify, request
 from flask.views import MethodView
 from flask_jwt_extended import jwt_required
 from src.main.factories.infra import mongo_user_repository_factory
@@ -16,10 +16,10 @@ class AddCommentController(MethodView):
         user_id = request.json.get("user_id")
         username = user_repository.find_user_by_id(user_id)["name"]
 
-        add_comment.comment(
+        comment = add_comment.comment(
             username=username,
             photo_id=request.json.get("photo_id"),
             text=request.json.get("text"),
         )
 
-        return ("", 204)
+        return jsonify(comment), 201

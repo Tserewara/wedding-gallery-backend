@@ -13,3 +13,5 @@ class AddComment(AbstractAddComment):
         self.photo_repository.update_photo(
             photo_id, "comments", {"username": username, "text": text}
         )
+
+        return {"username": username, "photo_id": photo_id, "text": text}
