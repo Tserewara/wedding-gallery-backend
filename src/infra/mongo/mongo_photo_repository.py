@@ -36,4 +36,9 @@ class MongoPhotoRepository(AbstractPhotoRepository):
         )
 
     def list_photos(self, skips, per_page, filter):
-        return self._collection.find(filter).skip(skips).limit(per_page)
+        return (
+            self._collection.find(filter)
+            .sort([("$natural", -1)])
+            .skip(skips)
+            .limit(per_page)
+        )
