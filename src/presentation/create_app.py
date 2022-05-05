@@ -62,6 +62,3 @@ def create_app() -> Flask:
     )
 
     return app
-
-
-create_app().run(debug=True)
