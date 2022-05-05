@@ -93,7 +93,7 @@ def test_should_return_photo_model_if_upload_succeeds():
 
     photo_model = PhotoModel(user_id, username, filename)
 
-    result = sut.add(user_id, username, filename, file)
+    result, _ = sut.add(user_id, username, filename, file)
 
     assert result == photo_model
 

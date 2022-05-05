@@ -7,4 +7,6 @@ load_dotenv(".env")
 
 def mongo_client_factory():
     database_name = "friends-gallery"
-    return MongoClient(os.environ.get("MONGO_URI")), database_name
+    MONGO_PASSWORD = os.environ.get("MONGO_PASSWORD")
+    connection_string = f"mongodb+srv://tserewara:{MONGO_PASSWORD}@cluster0.fizpd.mongodb.net/friends-gallery?retryWrites=true&w=majority"
+    return MongoClient(connection_string), database_name
