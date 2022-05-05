@@ -1,0 +1,56 @@
+name: CI-CD-AWS-ElasticBeanstalk
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.7"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Test with pytest
+      run: |
+        python -m pytest
+
+# Elastic Beanstalk CLI version
+    - name: Get EB CLI version
+      run: |
+        python -m pip install --upgrade pip
+        pip install awsebcli --upgrade
+        eb --version
+    # Configure AWS Credentials
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    # Create the Elastic Beanstalk application
+    - name: Create EBS application
+      run: |
+        eb init -p python-3.7 friends-gallery --region us-east-1
+    # Deploy to (or Create) the Elastic Beanstalk environment
+    - name: Create friends-gallery-env environment & deploy
+      run: |
+        (eb use friends-gallery-env && eb status friends-gallery-env && eb deploy) || eb create friends-gallery-env
+        eb setenv MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}
+        eb setenv JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}
+        eb setenv AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}
+        eb setenv AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
