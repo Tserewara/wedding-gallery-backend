@@ -8,7 +8,7 @@ An unified gallery with all friend's photos
 
 ## Create a user
 
-To create a user, you must add name, email and a password. You also can tell if you're the bride or the groom. If it fails, an error message is shown bellow the button.
+To create a user, you must add name, email and a password. You also can tell if you're the bride or the groom. If this option is chosen, the user will have privileges to see all photos and approve them. If it fails, an error message is shown bellow the button.
 
 ![Image](/docs/create-user.gif "create-user")
 
