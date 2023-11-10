@@ -4,7 +4,7 @@
 
 An unified gallery with all friend's photos
 
-[Click here to see live](https://gallery.tserewara.com)
+~[Click here to see live](https://gallery.tserewara.com)~
 
 ## Create a user
 
